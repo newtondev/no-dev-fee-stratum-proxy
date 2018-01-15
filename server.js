@@ -15,7 +15,7 @@ if (!localhost || !localport || !remotehost || !remoteport) {
 }
 
 const server = net.createServer((localsocket) => {
-  const removesocket = new net.Socket()
+  const remotesocket = new net.Socket()
 
   remotesocket.connect(remoteport, remotehost)
 
@@ -31,6 +31,7 @@ const server = net.createServer((localsocket) => {
       localsocket.remoteAddress,
       localsocket.remotePort
     )
+    console.log('localsocket-data: %s', data);
     const flushed = remotesocket.write(data)
     if (!flushed) {
       console.log(' remote not flused; pausing local');
@@ -41,8 +42,9 @@ const server = net.createServer((localsocket) => {
   remotesocket.on('data', (data) => {
     console.log('%s:%d - writing data to local', 
       localsocket.remoteAddress,
-      localspclet.remotePort
+      localsocket.remotePort
     )
+    console.log('remotesocket-data: %s', data);
     const flushed = localsocket.write(data)
     if (!flushed) {
       console.log(' local not flushed; pausing remote')
