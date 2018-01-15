@@ -1,15 +1,16 @@
+require('dotenv').config();
 const net = require('net')
 
 process.on('uncaughtException', (err) => {
   console.error(err)
 })
 
-const localhost = process.argv[2]
-const localport = process.argv[3]
-const remotehost = process.argv[4]
-const remoteport = process.argv[5]
-const wallet = process.argv[6]
-const password = process.argv[7]
+const wallet = process.env.WALLET
+const remotehost = process.env.REMOTE_HOST
+const remoteport = process.env.REMOTE_PORT
+const password = process.env.REMOTE_PASSWORD
+const localhost = process.env.LOCAL_HOST
+const localport = process.env.LOCAL_PORT
 
 if (!localhost || !localport || !remotehost || 
     !remoteport || !wallet || !password) {
