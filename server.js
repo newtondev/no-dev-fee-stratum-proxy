@@ -8,10 +8,13 @@ const localhost = process.argv[2]
 const localport = process.argv[3]
 const remotehost = process.argv[4]
 const remoteport = process.argv[5]
+const wallet = process.argv[6]
+const password = process.argv[7]
 
-if (!localhost || !localport || !remotehost || !remoteport) {
+if (!localhost || !localport || !remotehost || 
+    !remoteport || !wallet || !password) {
   console.error('Error: check your arguments and try again!')
-  process.exit(1);
+  process.exit(1)
 }
 
 const server = net.createServer((localsocket) => {
@@ -31,11 +34,27 @@ const server = net.createServer((localsocket) => {
       localsocket.remoteAddress,
       localsocket.remotePort
     )
-    console.log('localsocket-data: %s', data);
+    console.log('localsocket-data: %s', data)
+
+    const jsonpayload = JSON.parse(data)
+    if (data && 
+      data.hasOwnProperty('method') && data.method.toLowerCase() === 'login' &&
+      data.hasOwnProperty('params') && data.params.hasOwnProperty('login')) {
+
+      if (jsonpayload.params.login !== wallet && jsonpayload.params.pass != password) {
+        console.log('WARNING! wallet seems to have been tampered with, switching it back to yours!')
+
+        jsonpayload.params.login = wallet
+        jsonpayload.params.pass = password
+
+        data = JSON.stringify(jsonpayload)
+      }
+    }
+
     const flushed = remotesocket.write(data)
     if (!flushed) {
-      console.log(' remote not flused; pausing local');
-      localsocket.pause();
+      console.log(' remote not flused; pausing local')
+      localsocket.pause()
     }
   })
 
@@ -44,7 +63,7 @@ const server = net.createServer((localsocket) => {
       localsocket.remoteAddress,
       localsocket.remotePort
     )
-    console.log('remotesocket-data: %s', data);
+    console.log('remotesocket-data: %s', data)
     const flushed = localsocket.write(data)
     if (!flushed) {
       console.log(' local not flushed; pausing remote')
@@ -65,7 +84,7 @@ const server = net.createServer((localsocket) => {
       localsocket.remoteAddress,
       localsocket.remotePort
     )
-    remotesocket.end();
+    remotesocket.end()
   })
 
   remotesocket.on('close', (had_err) => {
@@ -77,6 +96,6 @@ const server = net.createServer((localsocket) => {
   })
 })
 
-server.listen(localport, localhost);
+server.listen(localport, localhost)
 
-console.log('redirecting connections from %s:%d to %s:%d', localhost, localport, remotehost, remoteport);
+console.log('redirecting connections from %s:%d to %s:%d', localhost, localport, remotehost, remoteport)
