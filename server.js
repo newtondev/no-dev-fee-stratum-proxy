@@ -9,8 +9,8 @@ const wallet = process.env.WALLET
 const remotehost = process.env.REMOTE_HOST
 const remoteport = process.env.REMOTE_PORT
 const password = process.env.REMOTE_PASSWORD
-const localhost = process.env.LOCAL_HOST
-const localport = process.env.LOCAL_PORT
+const localhost = process.env.LOCAL_HOST || '0.0.0.0'
+const localport = process.env.LOCAL_PORT || 4444
 
 if (!localhost || !localport || !remotehost || 
     !remoteport || !wallet || !password) {
