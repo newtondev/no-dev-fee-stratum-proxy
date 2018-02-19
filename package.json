@@ -1,5 +1,5 @@
 {
-  "name": "newtondev-xmr-proxy",
+  "name": "newtondev-no-dev-fee-stratum-proxy",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",

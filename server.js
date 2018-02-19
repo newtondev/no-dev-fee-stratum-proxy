@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config()
 const net = require('net')
 
 process.on('uncaughtException', (err) => {
