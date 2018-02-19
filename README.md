@@ -1,6 +1,6 @@
 # NO DEV-FEE STRATUM PROXY
 
-Intercepts requests and responses to be modified.
+Intercepts those scurvy dev fee switching bandits and ensures that you get 100% the mining shares. How dare they extort a dev fee while using open source libraries!
 
 ## Installation instructions
 
