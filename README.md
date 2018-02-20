@@ -56,7 +56,7 @@ You can run it in a screen instance, or you can install pm2 to run your instance
 
 ## Linux, Mac OSX
 
-* It should just work, if not then please let me know.
+* Use dynamic dns provider and setup routing on your firewall. Or you can set up this proxy on a VPS that is off of your network.
 
 ---
 
